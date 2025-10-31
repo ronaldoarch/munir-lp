@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Casa do Bicho - Jogo do Bicho</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial Black', Arial, sans-serif;
+      min-height: 100vh;
+      background: #22c55e;
+      background-image: 
+        repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.05) 35px, rgba(255,255,255,.05) 70px);
+      color: #FFD700;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .container {
+      background: rgba(255,255,255,0.1);
+      border-radius: 28px;
+      padding: 48px 36px 36px 36px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3), 0 0 0 4px #FFD700;
+      max-width: 500px;
+      border: 3px solid #FFD700;
+      position: relative;
+      z-index: 2;
+      animation: popin 1s cubic-bezier(.68,-0.55,.27,1.55);
+    }
+    @keyframes popin {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .badge-gratis {
+      display: inline-block;
+      background: #FFD700;
+      color: #000;
+      font-weight: bold;
+      font-size: 1.1em;
+      border-radius: 20px;
+      padding: 8px 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 0 3px #fff;
+      letter-spacing: 2px;
+      position: relative;
+      top: -8px;
+      left: 0;
+      z-index: 3;
+      border: 3px solid #fff;
+      text-transform: uppercase;
+    }
+    h1 {
+      font-size: 1.8em;
+      margin-bottom: 16px;
+      color: #FFD700;
+      font-weight: 900;
+      text-shadow: 
+        3px 3px 0px #000,
+        5px 5px 0px rgba(0,0,0,0.3),
+        0 0 20px rgba(255,215,0,0.8);
+      letter-spacing: 1px;
+      line-height: 1.3;
+      text-transform: uppercase;
+    }
+    .subtitulo {
+      font-size: 1.2em;
+      color: #fff;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      font-weight: bold;
+    }
+    .desc {
+      font-size: 1em;
+      color: #fff;
+      margin-bottom: 24px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      line-height: 1.5;
+    }
+    .cta {
+      display: inline-block;
+      background: #FF6600;
+      background: linear-gradient(135deg, #FF7700 0%, #FF5500 100%);
+      color: #fff;
+      padding: 24px 60px;
+      font-size: 28px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 900;
+      box-shadow: 
+        0 6px 20px rgba(0,0,0,0.4),
+        0 0 0 4px #fff,
+        inset 0 2px 0 rgba(255,255,255,0.3);
+      margin-top: 24px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      letter-spacing: 2px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      text-transform: uppercase;
+      animation: popin 1.2s 0.2s cubic-bezier(.68,-0.55,.27,1.55);
+    }
+    .cta:hover {
+      background: linear-gradient(135deg, #FF8800 0%, #FF6600 100%);
+      transform: scale(1.05) translateY(-3px);
+      box-shadow: 
+        0 8px 30px rgba(0,0,0,0.5),
+        0 0 0 5px #fff,
+        inset 0 2px 0 rgba(255,255,255,0.4);
+    }
+    .cta .whatsapp-icon {
+      display: none;
+    }
+    .cta .arrow {
+      display: none;
+    }
+    @keyframes arrowmove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(8px); }
+    }
+    .animais {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.4;
+      font-size: 4em;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+      animation: animaissparkle 2.5s infinite alternate;
+    }
+    @keyframes animaissparkle {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(-5px) scale(1.05); }
+    }
+    .animal1 { left: 5vw; top: 10vh; transform: rotate(-12deg); }
+    .animal2 { right: 5vw; top: 15vh; transform: rotate(8deg); }
+    .animal3 { left: 10vw; bottom: 15vh; transform: rotate(18deg); }
+    .animal4 { right: 10vw; bottom: 10vh; transform: rotate(-8deg); }
+    .animal5 { left: 3vw; top: 40vh; transform: rotate(-5deg); }
+    .stars {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.6;
+      font-size: 2em;
+      color: #FFD700;
+      filter: drop-shadow(0 0 8px #FFD700);
+      animation: starTwinkle 1.5s infinite alternate;
+    }
+    @keyframes starTwinkle {
+      0% { opacity: 0.4; transform: scale(1); }
+      100% { opacity: 0.8; transform: scale(1.2); }
+    }
+    .coin {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.5;
+      font-size: 2.5em;
+      color: #FFD700;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+      animation: coinFloat 3s infinite ease-in-out;
+    }
+    @keyframes coinFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(10deg); }
+    }
+    @media (max-width: 600px) {
+      .container { padding: 32px 20px 28px 20px; max-width: 95vw; }
+      h1 { font-size: 1.4em; }
+      .badge-gratis { font-size: 0.9em; padding: 6px 18px; }
+      .cta { font-size: 20px; padding: 18px 40px; letter-spacing: 1px; }
+      .animais { font-size: 2.5em; }
+      .stars { font-size: 1.5em; }
+      .coin { font-size: 2em; }
+      .subtitulo { font-size: 1em; }
+      .desc { font-size: 0.9em; }
+    }
+  </style>
+
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2154190761777070');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=2154190761777070&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+
+</head>
+<body>
+  <span class="animais animal1">🦁</span>
+  <span class="animais animal2">🐓</span>
+  <span class="animais animal3">🐵</span>
+  <span class="animais animal4">🐘</span>
+  <span class="animais animal5">🐓</span>
+  
+  <span class="stars" style="left: 8vw; top: 5vh;">✨</span>
+  <span class="stars" style="right: 8vw; top: 8vh;">✨</span>
+  <span class="stars" style="left: 15vw; top: 25vh;">✨</span>
+  <span class="stars" style="right: 12vw; bottom: 20vh;">✨</span>
+  <span class="stars" style="left: 6vw; bottom: 8vh;">✨</span>
+  <span class="stars" style="right: 18vw; top: 35vh;">✨</span>
+  
+  <span class="coin" style="left: 12vw; top: 20vh;">🪙</span>
+  <span class="coin" style="right: 15vw; top: 25vh;">🪙</span>
+  <span class="coin" style="left: 8vw; bottom: 25vh;">🪙</span>
+  <span class="coin" style="right: 8vw; bottom: 30vh;">🪙</span>
+  
+  <div class="container">
+    <span class="badge-gratis">CASA DO BICHO</span>
+    <h1>Nunca foi tão fácil<br>apostar e ganhar<br>no jogo do bicho</h1>
+    <div class="subtitulo">A sua sorte está aqui!</div>
+    <div class="desc">Jogue no <b>Jogo do Bicho</b> com a <b>Casa do Bicho</b>.<br>Faça suas apostas e teste sua sorte!</div>
+    <a class="cta" href="https://wa.me/556281769719" target="_blank" onclick="if(typeof fbq !== 'undefined'){fbq('track', 'Lead');}">
+      JOGAR
+    </a>
+  </div>
+</body>
+</html>
